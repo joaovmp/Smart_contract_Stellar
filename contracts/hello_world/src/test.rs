@@ -13,7 +13,7 @@ fn test() {
         words,
         vec![
             &env,
-            String::from_str(&env, "Hello"),
+            String::from_str(&env, "Hello"), 
             String::from_str(&env, "Dev"),
         ]
     );
