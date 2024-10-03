@@ -25,8 +25,17 @@ impl IncrementContract {
         // instance itself and all entries in storage().instance(), i.e, COUNTER.
         env.storage().instance().extend_ttl(50, 100);
 
+        // Publish an event about the increment occuring.
+        // The event has two topics:
+        //   - The "COUNTER" symbol.
+        //   - The "increment" symbol.
+        // The event data is the count.
+        env.events()
+            .publish((COUNTER, symbol_short!("increment")), count);
+
         // Return the count to the caller.
         count
+        
     }
 }
 

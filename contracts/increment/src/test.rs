@@ -1,9 +1,7 @@
 #![cfg(test)]
 
-use super::{IncrementContract, IncrementContractClient};
-use soroban_sdk::{testutils::Logs, Env};
-
-extern crate std;
+use super::*;
+use soroban_sdk::{testutils::Events, vec, Env, IntoVal};
 
 #[test]
 fn test() {
@@ -15,5 +13,25 @@ fn test() {
     assert_eq!(client.increment(), 2);
     assert_eq!(client.increment(), 3);
 
-    std::println!("{}", env.logs().all().join("\n"));
+    assert_eq!( 
+        env.events().all(),
+        vec![
+            &env,
+            (
+                contract_id.clone(),
+                (symbol_short!("COUNTER"), symbol_short!("increment")).into_val(&env),
+                1u32.into_val(&env)
+            ),
+            (
+                contract_id.clone(),
+                (symbol_short!("COUNTER"), symbol_short!("increment")).into_val(&env),
+                2u32.into_val(&env)
+            ),
+            (
+                contract_id,
+                (symbol_short!("COUNTER"), symbol_short!("increment")).into_val(&env),
+                3u32.into_val(&env)
+            ),
+        ]
+    );
 }
