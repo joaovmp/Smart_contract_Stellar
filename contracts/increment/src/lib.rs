@@ -16,7 +16,6 @@ impl IncrementContract {
 
         // Increment the count.
         count += 1;
-
         // Save the count.
         env.storage().instance().set(&COUNTER, &count);
 
